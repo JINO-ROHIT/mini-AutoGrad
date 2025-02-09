@@ -1,13 +1,15 @@
+from typing import Union, Callable
+
 from basic_operations import Tensor
 
 class NumericalDiff(Tensor):
 
-    def __init__(self, data, f):
+    def __init__(self, data: Tensor, f: Callable[[Tensor], Tensor]):
         super().__init__(data)
         self.data = data
         self.f = f
 
-    def backward(self, eps = 1e-6):
+    def backward(self, eps: Union[int, float] = 1e-6) -> Tensor:
         x_plus = Tensor(self.data + eps)
         x_minus = Tensor(self.data - eps)
         y_plus = self.f(x_plus)
